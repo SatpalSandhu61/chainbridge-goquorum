@@ -17,14 +17,18 @@ A GoQuorum `geth` executable must exist on the path. This can either be a binary
 - [ChainBridge repo](https://github.com/ChainSafe/ChainBridge)
 - [ChainBridge contract deployment tool repo](https://github.com/ChainSafe/chainbridge-deploy)
 
-Note that the two ChainBridge repos listed above have actually been deprecated in favour of [chainbridge-core](https://github.com/ChainSafe/chainbridge-core), which is a framework rather than an executable and requires a bit more work to get running. However the new repo is going through a lot of change; it seems quite unstable and lacks documentation, so I‘ve used the deprecated version for now.
+Note that the two ChainBridge repos listed above have actually been deprecated in favour of [chainbridge-core](https://github.com/ChainSafe/chainbridge-core),
+which is a framework rather than an executable and requires a bit more work to get running.
+However the new repo is going through a lot of change; it seems quite unstable and lacks documentation, so I‘ve used the deprecated version for now.
 
-It's also worth mentioning at this point that ChainBridge maintains its own keystore, which is a security concern. I would expect a future enhancement to allow integration with an external vault.
+It's also worth mentioning at this point that ChainBridge maintains its own keystore, which is a security concern.
+I would expect a future enhancement to allow integration with an external vault.
 
 # Local GoQuorum networks setup
 
 For this, I set up two quorum networks, each one running 4 nodes. Both networks are a 4-node version of the quorum-examples.
-Network 1 node1 is listening on port 22000 and has ChainId 10. Network 2 node1 is listening on port 29000, and has ChainId 20. ChainBridge is attaching to these nodes to use as gateways.
+Network 1 node1 is listening on port 22000 and has ChainId 10. Network 2 node1 is listening on port 29000, and has ChainId 20.
+ChainBridge is attaching to these nodes to use as gateways.
 
 In the example below, I will transfer tokens from network 1 to network 2, and then back again.
 
@@ -33,7 +37,7 @@ In the example below, I will transfer tokens from network 1 to network 2, and th
 ```sh
 cd <working directory>
 git clone https://github.com/SatpalSandhu61/chainbridge-goquorum.git
-cd chainbridge-quorum
+cd chainbridge-goquorum
 ./istanbul-init1.sh
 ./istanbul-start1.sh
 ./istanbul-init2.sh
@@ -45,10 +49,10 @@ Set up environment variables with quorum networks & account details, for use in 
 ```sh
 SRC_GATEWAY=http://localhost:22000
 DST_GATEWAY=http://localhost:29000
-SRC_ADDR=0xed9d02e382b34818e88b88a309c7fe71e65f419d                                                              # network1, node1 ‘from’ account (key1) – also need in ChainBridge config file
-SRC_PK=e6181caaffff94a09d7e332fc8da9884d99902c7874eb74354bdcadf411929f1                        # private key for this account
-DST_ADDR=0x0638e1574728b6d862dd5d3a3e0942c3be47d996                                                            # network2, node1 ‘from’ account (key5) – also need in ChainBridge config file
-DST_PK=30bee17b2b8b1e774115f785e92474027d45d900a12a9d5d99af637c2d1a61bd                  # private key for this account
+SRC_ADDR=0xed9d02e382b34818e88b88a309c7fe71e65f419d                          # network1, node1 ‘from’ account (key1) – also need in ChainBridge config file
+SRC_PK=e6181caaffff94a09d7e332fc8da9884d99902c7874eb74354bdcadf411929f1      # private key for this account
+DST_ADDR=0x0638e1574728b6d862dd5d3a3e0942c3be47d996                          # network2, node1 ‘from’ account (key5) – also need in ChainBridge config file
+DST_PK=30bee17b2b8b1e774115f785e92474027d45d900a12a9d5d99af637c2d1a61bd      # private key for this account
 ```
 
 ### Checkout chainbridge-deploy and deploy contracts onto the quorum networks
@@ -115,12 +119,12 @@ WETC:               Not Deployed
 
 ```sh
 # replace these addresses if the contract addresses returned above are different
-SRC_BRIDGE=0x1932c48b2bF8102Ba33B4A6B545C32236e342f34                                               # network1: address of bridge contract
-SRC_HANDLER=0x1349F3e1B8D71eFfb47B840594Ff27dA7E603d17                                           # network1: address of ERC20 handler contract
-SRC_TOKEN=0x8a5E2a6343108bABEd07899510fb42297938D41F                                                # network1: address of ERC20 contract
-DST_BRIDGE=0x3f217e1FE69d1B188385b761a2b17827616b9BDB                                              # network2: address of bridge contact
-DST_HANDLER=0x6D19a263c40D5e724D6aEcBf87BD9a3716CC6889                                          # network2: address of ERC20 handler contract
-DST_TOKEN=0xA443f2511ab96fe3364b4eD109677Dfa2eE43dc9                                                 # network2: address of ERC20 contract
+SRC_BRIDGE=0x1932c48b2bF8102Ba33B4A6B545C32236e342f34              # network1: address of bridge contract
+SRC_HANDLER=0x1349F3e1B8D71eFfb47B840594Ff27dA7E603d17             # network1: address of ERC20 handler contract
+SRC_TOKEN=0x8a5E2a6343108bABEd07899510fb42297938D41F               # network1: address of ERC20 contract
+DST_BRIDGE=0x3f217e1FE69d1B188385b761a2b17827616b9BDB              # network2: address of bridge contact
+DST_HANDLER=0x6D19a263c40D5e724D6aEcBf87BD9a3716CC6889             # network2: address of ERC20 handler contract
+DST_TOKEN=0xA443f2511ab96fe3364b4eD109677Dfa2eE43dc9               # network2: address of ERC20 contract
 RESOURCE_ID=0x000000000000000000000000000000c76ebe4a02bbc34786d860b355f5a5ce00
 ```
 
@@ -197,6 +201,9 @@ and update it to have the correct contract addresses.
 
 ### Checkout & build ChainBridge relayer (executable ‘chainbridge’)
 
+Do this in a different window, as the chainbridge will run as a foreground process.
+However, don't forget to set the environment variables as per earlier.
+
 ```sh
 cd <working directory>
 git clone https://github.com/ChainSafe/ChainBridge
@@ -207,8 +214,8 @@ docker build -t chainsafe/chainbridge .                   # build docker contain
 chainbridge accounts import --privateKey ${SRC_PK}        # NB: no password
 chainbridge accounts import --privateKey ${DST_PK}        # NB: no password
 # grab a copy of the config file
-cp <path to checkout of chainbridge-quorum repo>/myconfig.json
-# using myconfig.json, start chainbridge – make sure this has correct from addresses and contract addresses
+cp <path to checkout of chainbridge-quorum repo>/myconfig.json .
+# using myconfig.json, start chainbridge – make sure this has correct 'from' addresses and contract addresses
 chainbridge --config myconfig.json --verbosity trace --latest
 ```
 
@@ -262,7 +269,8 @@ cb-sol-cli erc20 deposit \
 --resourceId ${RESOURCE_ID}
 ```
 
-**Note** that the relayer will wait 10 block confirmations before submitting the request (this can be seen in the relayer console in the log message “target=XXXX”). It appears that you need to wait for 10 blocks to be minted on the source network followed by another 10 blocks on the destination network before the transfer is complete.
+**Note** that the relayer will wait 10 block confirmations before submitting the request (this can be seen in the relayer console in the log message “target=XXXX”).
+It appears that you need to wait for 10 blocks to be minted on the source network followed by another 10 blocks on the destination network before the transfer is complete.
 
 ### Check ERC20 token balance (on both source & destination)
 
@@ -305,11 +313,12 @@ cb-sol-cli erc20 deposit \
 --resourceId ${RESOURCE_ID}
 ```
 
-**Note** that the relayer will wait 10 block confirmations before submitting the request (this can be seen in the relayer console in the log message “target=XXXX”). It appears that you need to wait for 10 blocks to be minted on the source network followed by another 10 blocks on the destination network before the transfer is complete.
+**Note** that the relayer will wait 10 block confirmations before submitting the request (this can be seen in the relayer console in the log message “target=XXXX”).
+It appears that you need to wait for 10 blocks to be minted on the source network followed by another 10 blocks on the destination network before the transfer is complete.
 
 ### Check ERC20 token balance (on both source & destination)
 
-Expect to see 901 on network1 and 1098 on network2.
+Expect to see 912 on network1 and 1087 on network2.
 
 ```sh
 cb-sol-cli erc20 balance \
@@ -321,4 +330,3 @@ cb-sol-cli erc20 balance \
 --erc20Address ${DST_TOKEN} \
 --address ${DST_ADDR}
  ```
-
