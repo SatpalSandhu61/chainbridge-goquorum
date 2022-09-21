@@ -31,6 +31,7 @@ In the example below, I will transfer tokens from network 1 to network 2, and th
 ### Run geth network1 and network2
 
 ```sh
+cd <working directory>
 git clone https://github.com/SatpalSandhu61/chainbridge-goquorum.git
 cd chainbridge-quorum
 ./istanbul-init1.sh
@@ -53,7 +54,7 @@ DST_PK=30bee17b2b8b1e774115f785e92474027d45d900a12a9d5d99af637c2d1a61bd         
 ### Checkout chainbridge-deploy and deploy contracts onto the quorum networks
 
 ```sh
-cd ~/Documents/ChainBridge/
+cd <working directory>
 git clone https://github.com/ChainSafe/chainbridge-deploy
 cd chainbridge-deploy/cb-sol-cli/
 npm install
@@ -197,13 +198,16 @@ and update it to have the correct contract addresses.
 ### Checkout & build ChainBridge relayer (executable ‘chainbridge’)
 
 ```sh
+cd <working directory>
 git clone https://github.com/ChainSafe/ChainBridge
-cd chainbridge
+cd ChainBridge
 make install                                              # build local executable ‘chainbridge’
 docker build -t chainsafe/chainbridge .                   # build docker container (not actually needed, as I run locally)
 # the relayer maintains it’s own keystore, so import ‘from’ accounts into the relayer keystore
 chainbridge accounts import --privateKey ${SRC_PK}        # NB: no password
 chainbridge accounts import --privateKey ${DST_PK}        # NB: no password
+# grab a copy of the config file
+cp <path to checkout of chainbridge-quorum repo>/myconfig.json
 # using myconfig.json, start chainbridge – make sure this has correct from addresses and contract addresses
 chainbridge --config myconfig.json --verbosity trace --latest
 ```

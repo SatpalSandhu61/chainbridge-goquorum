@@ -1,0 +1,34 @@
+{
+    "chains": [
+        {
+            "name": "quorum1",
+            "type": "ethereum",
+            "id": "10",
+            "endpoint": "http://localhost:22000",
+            "from": "0xed9d02e382b34818e88b88a309c7fe71e65f419d",
+            "opts": {
+                "bridge": "0x1932c48b2bF8102Ba33B4A6B545C32236e342f34",
+                "erc20Handler": "0x1349F3e1B8D71eFfb47B840594Ff27dA7E603d17",
+                "erc721Handler": "0x9d13C6D3aFE1721BEef56B55D303B09E021E27ab",
+                "genericHandler": "0xd9d64b7DC034fAfDbA5DC2902875A67b5d586420",
+                "gasLimit": "1000000",
+                "maxGasPrice": "20000000"
+            }
+        },
+        {
+            "name": "quorum2",
+            "type": "ethereum",
+            "id": "20",
+            "endpoint": "http://localhost:29000",
+            "from": "0x0638e1574728b6d862dd5d3a3e0942c3be47d996",
+            "opts": {
+                "bridge": "0x3f217e1FE69d1B188385b761a2b17827616b9BDB",
+                "erc20Handler": "0x6D19a263c40D5e724D6aEcBf87BD9a3716CC6889",
+                "erc721Handler": "0xd8B6B876e320461e2703F46713a082F51Fc5CE47",
+                "genericHandler": "0x70cF424A59BdBD636b40fccCB7f342525A9bb14f",
+                "gasLimit": "1000000",
+                "maxGasPrice": "20000000"
+            }
+        }
+    ]
+}
